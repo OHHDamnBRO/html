@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gästebuch</title>
+  <script>
+    // XSS Beispiel: Einfügen von bösartigem Code in das Gästebuch
+    var name = "<script>alert('XSS Attack!');</script>";
+    var entry = document.createElement('p');
+    entry.textContent = name;
+
+    // Warte bis das DOM vollständig geladen ist
+    document.addEventListener('DOMContentLoaded', function() {
+      // Füge den Eintrag zum Gästebuch hinzu
+      document.getElementById('entries').appendChild(entry);
+    });
+  </script>
+</head>
+<body>
+  <h1>Gästebuch</h1>
+  <div id="entries"></div>
+
+  <script>
+    // SQL-Injektion Beispiel: Verwundbare Login-Seite
+    function login() {
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+
+      // SQL-Abfrage zur Überprüfung der Anmeldedaten
+      var query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'";
+      console.log("Ausgeführte SQL-Abfrage: " + query);
+
+      // Anmeldelogik (vereinfacht)
+      if (username === 'admin' && password === 'pass123') {
+        console.log("Erfolgreich eingeloggt!");
+      } else {
+        console.log("Falscher Benutzername oder Passwort!");
+      }
+    }
+  </script>
+
+  <h2>Login</h2>
+     <form>
+        <label for="username">Benutzername:</label>
+            <input type="text" id="username" name="username">
+                <br>
+         <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password">
+                <br>
+            <input type="button" value="Anmelden" onclick="login()">
+     </form>
+</body>
+</html>
